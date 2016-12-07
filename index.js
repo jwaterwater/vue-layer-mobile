@@ -1,7 +1,7 @@
 (function(window){
   let layerComponent = {
     template: `<div v-if="visible" class="layui-m-layer" v-bind:class="layerClass">
-                <div  v-if="type==2" class="layui-m-layershade"></div>
+                <div v-on:click="close()"  v-if="isShade" class="layui-m-layershade"></div>
                 <div class="layui-m-layermain">
                   <div class="layui-m-layersection">
                     <div v-if="type==2 && !skin" class="layui-m-layerchild  layui-m-anim-scale">
@@ -21,7 +21,7 @@
                         <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>
                         <div v-if="btn" class="layui-m-layerbtn">
                           <template v-for="(item, index) in btn">
-                            <span type="1">{{ item }}</span>
+                            <span v-on:click="close()" type="1">{{ item }}</span>
                           </template>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
         type: String
       },
       'title': {
-        type: Object
+        type: [Object, String]
       },
       'icon': {
         type: String
@@ -72,6 +72,9 @@
       },
       iconClass: function () {
         return this.icon
+      },
+      isShade: function () {
+        return (this.type==2 || this.defaultChild) ? true : false
       }
     },
     data: function () {
@@ -80,6 +83,12 @@
       }
     },
     methods: {
+      close () {
+        if(this.type === 2) {
+          return false
+        }
+        this.visible = false
+      }
     }
   }
   function getIndexLayer (Vue, props) {
@@ -116,9 +125,18 @@
     toast: function (icon) {
       let props = {
         content: icon.content?icon.content:'',
-        icon: icon.className,
+        icon: icon.className?icon.className:'',
         skin: 'msg',
-        time: icon.time
+        time: icon.time?icon.time:2000
+      }
+      this.open(props)
+    },
+    dialog: function (dialog) {
+      let props = {
+        content: dialog.content?dialog.content:'',
+        time: dialog.time?dialog.time:0,
+        title: dialog.title?dialog.title:'',
+        btn: dialog.btn?dialog.btn:''
       }
       this.open(props)
     }
