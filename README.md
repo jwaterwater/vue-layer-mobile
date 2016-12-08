@@ -31,4 +31,10 @@ this.$layer.dialog({
   btn: ['确定']
   time: 2000
 })
+// 如果有btn
+.then(function (res){
+  // res为0时是用户点击了左边  为1时用户点击了右边
+  let position = res === 0 ? 'left' : 'right'
+  console.log(position)
+})
 ```

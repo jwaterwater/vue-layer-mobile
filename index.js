@@ -21,7 +21,7 @@
                         <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>
                         <div v-if="btn" class="layui-m-layerbtn">
                           <template v-for="(item, index) in btn">
-                            <span v-on:click="close()" type="1">{{ item }}</span>
+                            <span v-on:click="callback(index)" type="1">{{ item }}</span>
                           </template>
                         </div>
                     </div>
@@ -42,17 +42,21 @@
         type: String
       },
       'btn': {
-        type: String
+        type: [String, Array]
       },
       'title': {
         type: [Object, String]
       },
       'icon': {
         type: String
+      },
+      'callback': {
+        type: Function
       }
     },
     created () {
       this.visible = true
+      setTimeout(()=>{this.status = false}, 3000)
       this.time > 0 ? setTimeout(()=>{this.visible = false}, this.time) : ''
     },
     computed: {
@@ -79,7 +83,8 @@
     },
     data: function () {
       return {
-        visible: false
+        visible: false,
+        status: true
       }
     },
     methods: {
@@ -106,6 +111,7 @@
       let instance = getIndexLayer(this.vue, props)
       this.instanceList.push(instance)
       document.body.appendChild(instance.$el)
+      return instance
     },
     close: function () {
       if(this.instanceList.length>0) {
@@ -132,13 +138,21 @@
       this.open(props)
     },
     dialog: function (dialog) {
+      let self = this
       let props = {
         content: dialog.content?dialog.content:'',
         time: dialog.time?dialog.time:0,
         title: dialog.title?dialog.title:'',
         btn: dialog.btn?dialog.btn:''
       }
-      this.open(props)
+      // this.open(props)
+      return new Promise(function (resolve, reject){
+        props.callback = function (action) {
+          resolve(action)
+          self.close()
+        }
+        let instance = self.open(props)
+      })
     }
   }
   layer.install = function (Vue, options) {
