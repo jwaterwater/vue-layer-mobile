@@ -12,12 +12,12 @@
                     </div>
                     <div v-if="skin=='msg'" v-bind:style="msgStyle" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">
                       <div class="layui-m-layercont">
-                      <i style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>
+                      <i v-if="icon.className" style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>
                       {{ content }}
                       </div>
                     </div>
                     <div v-if="defaultChild" class="layui-m-layerchild">
-                        <h3 v-if="title">{{ title }}</h3>
+                        <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>
                         <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>
                         <div v-if="btn" class="layui-m-layerbtn">
                           <template v-for="(item, index) in btn">
@@ -45,7 +45,7 @@
         type: [String, Array]
       },
       'title': {
-        type: [Object, String]
+        type: [Array, String]
       },
       'icon': {
         type: String
@@ -79,6 +79,12 @@
       },
       isShade: function () {
         return (this.type==2 || this.defaultChild) ? true : false
+      },
+      titleText: function () {
+        return (typeof this.title) == 'string' ? this.title : this.title[0]
+      },
+      titleStyle: function () {
+        return (typeof this.title) == 'string' ? '' : this.title[1]
       }
     },
     data: function () {
@@ -130,7 +136,7 @@
     },
     toast: function (icon) {
       let props = {
-        content: icon.content?icon.content:'',
+        content: typeof icon == 'string' ? icon : (icon.content?icon.content:''),
         icon: icon.className?icon.className:'',
         skin: 'msg',
         time: icon.time?icon.time:2000
