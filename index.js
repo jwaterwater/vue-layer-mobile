@@ -1,6 +1,6 @@
 (function (window) {
   window.component = {
-    template: '<div v-if="visible" class="layui-m-layer" v-bind:class="layerClass">\n                <div v-on:click="close()"  v-if="isShade" class="layui-m-layershade"></div>\n                <div class="layui-m-layermain">\n                  <div class="layui-m-layersection">\n                    <div v-if="type==2 && !skin" class="layui-m-layerchild  layui-m-anim-scale">\n                      <div class="layui-m-layercont"><i></i>\n                        <i class="layui-m-layerload"></i>\n                        <i></i><p>{{ content?content:"" }}</p>\n                      </div>\n                    </div>\n                    <div v-if="ismsg" v-bind:style="msgStyle" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">\n                      <div class="layui-m-layercont">\n                      <i v-if="icon" style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>\n                      {{ content }}\n                      </div>\n                    </div>\n                    <div v-if="defaultChild" class="layui-m-layerchild">\n                        <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>\n                        <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>\n                        <div v-if="btn" class="layui-m-layerbtn">\n                          <template v-for="(item, index) in btn">\n                            <span v-on:click="callback(index)" type="1">{{ item }}</span>\n                          </template>\n                        </div>\n                    </div>\n                  </div>\n                </div>\n              </div>',
+    template: '<div v-if="visible" class="layui-m-layer" v-bind:class="layerClass">\n                <div v-on:click="close()"  v-if="isShade" class="layui-m-layershade"></div>\n                <div class="layui-m-layermain">\n                  <div class="layui-m-layersection">\n                    <div v-if="type==2 && !skin" class="layui-m-layerchild  layui-m-anim-scale">\n                      <div class="layui-m-layercont"><i></i>\n                        <i class="layui-m-layerload"></i>\n                        <i></i><p>{{ content?content:"" }}</p>\n                      </div>\n                    </div>\n                    <div v-if="ismsg" v-bind:style="msgStyle" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">\n                      <div class="layui-m-layercont">\n                      <i v-if="icon" style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>\n                      {{ content }}\n                      </div>\n                    </div>\n                    <div v-if="defaultChild" class="layui-m-layerchild layui-m-anim-up">\n                        <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>\n                        <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>\n                        <div v-if="btn" class="layui-m-layerbtn">\n                          <template v-for="(item, index) in btn">\n                            <span v-on:click="callback(index)" type="1">{{ item }}</span>\n                          </template>\n                        </div>\n                    </div>\n                    <div v-if="isfooter" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">\n                      <div v-if="content" class="layui-m-layercont">{{ content }}</div>\n                      <div class="layui-m-layerbtn">\n                          <template v-for="(item, index) in btn">\n                            <span :style="footerRadius(index)" v-if="index!=0" no="" v-on:click="callback(index)" type="1">{{ item }}</span>\n                          </template>\n                          <span v-if="btn.length>0" yes="" v-on:click="callback(0)" type="1">{{ btn[0] }}</span>\n                      </div>\n                  </div>\n                  </div>\n                </div>\n              </div>',
     props: {
       'content': String,
       'type': {
@@ -40,7 +40,7 @@
     },
     computed: {
       defaultChild: function defaultChild() {
-        return this.type == 2 || this.skin == 'msg' ? false : true;
+        return this.type == 2 || this.skin == 'msg' || this.skin == 'footer' ? false : true;
       },
       layerClass: function layerClass() {
         return 'layui-m-layer' + this.type;
@@ -57,7 +57,7 @@
         return this.icon;
       },
       isShade: function isShade() {
-        return this.type == 2 || this.defaultChild ? true : false;
+        return this.type == 2 || this.skin == 'footer' || this.defaultChild ? true : false;
       },
       titleText: function titleText() {
         return typeof this.title == 'string' ? this.title : this.title[0];
@@ -67,6 +67,9 @@
       },
       ismsg: function ismsg() {
         return this.skin == 'msg';
+      },
+      isfooter: function isfooter() {
+        return this.skin == 'footer';
       }
     },
     data: function data() {
@@ -81,6 +84,9 @@
           return false;
         }
         this.visible = false;
+      },
+      footerRadius: function footerRadius(index) {
+        return this.btn[index + 1] ? 'border-radius:0;' : 'border-radius: 0 0 5px 5px;';
       }
     }
   };
@@ -134,6 +140,21 @@
         btn: _dialog.btn ? _dialog.btn : ''
       };
 
+      return new Promise(function (resolve, reject) {
+        props.callback = function (action) {
+          resolve(action);
+          self.close();
+        };
+        var instance = self.open(props);
+      });
+    },
+    footer: function footer(data) {
+      var self = this;
+      var props = {
+        skin: 'footer',
+        content: data.content ? data.content : '',
+        btn: data.btn ? data.btn : []
+      };
       return new Promise(function (resolve, reject) {
         props.callback = function (action) {
           resolve(action);
