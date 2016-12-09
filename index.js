@@ -1,34 +1,7 @@
-(function(window){
-  let layerComponent = {
-    template: `<div v-if="visible" class="layui-m-layer" v-bind:class="layerClass">
-                <div v-on:click="close()"  v-if="isShade" class="layui-m-layershade"></div>
-                <div class="layui-m-layermain">
-                  <div class="layui-m-layersection">
-                    <div v-if="type==2 && !skin" class="layui-m-layerchild  layui-m-anim-scale">
-                      <div class="layui-m-layercont"><i></i>
-                        <i class="layui-m-layerload"></i>
-                        <i></i><p>{{ content?content:"" }}</p>
-                      </div>
-                    </div>
-                    <div v-if="skin=='msg'" v-bind:style="msgStyle" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">
-                      <div class="layui-m-layercont">
-                      <i v-if="icon.className" style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>
-                      {{ content }}
-                      </div>
-                    </div>
-                    <div v-if="defaultChild" class="layui-m-layerchild">
-                        <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>
-                        <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>
-                        <div v-if="btn" class="layui-m-layerbtn">
-                          <template v-for="(item, index) in btn">
-                            <span v-on:click="callback(index)" type="1">{{ item }}</span>
-                          </template>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>`,
-    props:{
+(function (window) {
+  window.component = {
+    template: '<div v-if="visible" class="layui-m-layer" v-bind:class="layerClass">\n                <div v-on:click="close()"  v-if="isShade" class="layui-m-layershade"></div>\n                <div class="layui-m-layermain">\n                  <div class="layui-m-layersection">\n                    <div v-if="type==2 && !skin" class="layui-m-layerchild  layui-m-anim-scale">\n                      <div class="layui-m-layercont"><i></i>\n                        <i class="layui-m-layerload"></i>\n                        <i></i><p>{{ content?content:"" }}</p>\n                      </div>\n                    </div>\n                    <div v-if="ismsg" v-bind:style="msgStyle" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">\n                      <div class="layui-m-layercont">\n                      <i v-if="icon" style="display:block;font-size:40px;margin:22px" class="icon iconfont" :class="iconClass"></i>\n                      {{ content }}\n                      </div>\n                    </div>\n                    <div v-if="defaultChild" class="layui-m-layerchild">\n                        <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>\n                        <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>\n                        <div v-if="btn" class="layui-m-layerbtn">\n                          <template v-for="(item, index) in btn">\n                            <span v-on:click="callback(index)" type="1">{{ item }}</span>\n                          </template>\n                        </div>\n                    </div>\n                  </div>\n                </div>\n              </div>',
+    props: {
       'content': String,
       'type': {
         type: [Number, String],
@@ -54,116 +27,125 @@
         type: Function
       }
     },
-    created () {
-      this.visible = true
-      setTimeout(()=>{this.status = false}, 3000)
-      this.time > 0 ? setTimeout(()=>{this.visible = false}, this.time) : ''
+    created: function created() {
+      var _this = this;
+
+      this.visible = true;
+      setTimeout(function () {
+        _this.status = false;
+      }, 3000);
+      this.time > 0 ? setTimeout(function () {
+        _this.visible = false;
+      }, this.time) : '';
     },
     computed: {
-      defaultChild: function () {
-        return (this.type==2 || this.skin=='msg') ? false : true
+      defaultChild: function defaultChild() {
+        return this.type == 2 || this.skin == 'msg' ? false : true;
       },
-      layerClass: function () {
-        return 'layui-m-layer' + this.type
+      layerClass: function layerClass() {
+        return 'layui-m-layer' + this.type;
       },
-      skinClass: function () {
-        return 'layui-m-layer-' + this.skin
+      skinClass: function skinClass() {
+        return 'layui-m-layer-' + this.skin;
       },
-      msgStyle: function () {
+      msgStyle: function msgStyle() {
         return {
           bottom: this.icon ? 'auto' : ''
-        }
+        };
       },
-      iconClass: function () {
-        return this.icon
+      iconClass: function iconClass() {
+        return this.icon;
       },
-      isShade: function () {
-        return (this.type==2 || this.defaultChild) ? true : false
+      isShade: function isShade() {
+        return this.type == 2 || this.defaultChild ? true : false;
       },
-      titleText: function () {
-        return (typeof this.title) == 'string' ? this.title : this.title[0]
+      titleText: function titleText() {
+        return typeof this.title == 'string' ? this.title : this.title[0];
       },
-      titleStyle: function () {
-        return (typeof this.title) == 'string' ? '' : this.title[1]
+      titleStyle: function titleStyle() {
+        return typeof this.title == 'string' ? '' : this.title[1];
+      },
+      ismsg: function ismsg() {
+        return this.skin == 'msg';
       }
     },
-    data: function () {
+    data: function data() {
       return {
         visible: false,
         status: true
-      }
+      };
     },
     methods: {
-      close () {
-        if(this.type === 2) {
-          return false
+      close: function close() {
+        if (this.type === 2) {
+          return false;
         }
-        this.visible = false
+        this.visible = false;
       }
     }
-  }
-  function getIndexLayer (Vue, props) {
-    let layerIndex = Vue.extend(layerComponent)
+  };
+  function getIndexLayer(Vue, props) {
+    var layerIndex = Vue.extend(component);
     return new layerIndex({
       el: document.createElement('div'),
       propsData: props
-    })
+    });
   }
-  const layer = {
+  var layer = {
     v: '1.0',
     instanceList: [],
-    open: function (props) {
-      this.close()
-      let instance = getIndexLayer(this.vue, props)
-      this.instanceList.push(instance)
-      document.body.appendChild(instance.$el)
-      return instance
+    open: function open(props) {
+      this.close();
+      var instance = getIndexLayer(this.vue, props);
+      this.instanceList.push(instance);
+      document.body.appendChild(instance.$el);
+      return instance;
     },
-    close: function () {
-      if(this.instanceList.length>0) {
-        let item = this.instanceList.pop()
-        item.visible = false
-        this.close()
+    close: function close() {
+      if (this.instanceList.length > 0) {
+        var item = this.instanceList.pop();
+        item.visible = false;
+        this.close();
       }
-      return false
+      return false;
     },
-    loading: function (content) {
-      let props = {
-        content: content?content:'',
+    loading: function loading(content) {
+      var props = {
+        content: content ? content : '',
         type: 2
-      }
-      this.open(props)
+      };
+      this.open(props);
     },
-    toast: function (icon) {
-      let props = {
-        content: typeof icon == 'string' ? icon : (icon.content?icon.content:''),
-        icon: icon.className?icon.className:'',
+    toast: function toast(icon) {
+      var props = {
+        content: typeof icon == 'string' ? icon : icon.content ? icon.content : '',
+        icon: icon.className ? icon.className : '',
         skin: 'msg',
-        time: icon.time?icon.time:2000
-      }
-      this.open(props)
+        time: icon.time ? icon.time : 2000
+      };
+      this.open(props);
     },
-    dialog: function (dialog) {
-      let self = this
-      let props = {
-        content: dialog.content?dialog.content:'',
-        time: dialog.time?dialog.time:0,
-        title: dialog.title?dialog.title:'',
-        btn: dialog.btn?dialog.btn:''
-      }
-      // this.open(props)
-      return new Promise(function (resolve, reject){
+    dialog: function dialog(_dialog) {
+      var self = this;
+      var props = {
+        content: _dialog.content ? _dialog.content : '',
+        time: _dialog.time ? _dialog.time : 0,
+        title: _dialog.title ? _dialog.title : '',
+        btn: _dialog.btn ? _dialog.btn : ''
+      };
+
+      return new Promise(function (resolve, reject) {
         props.callback = function (action) {
-          resolve(action)
-          self.close()
-        }
-        let instance = self.open(props)
-      })
+          resolve(action);
+          self.close();
+        };
+        var instance = self.open(props);
+      });
     }
-  }
+  };
   layer.install = function (Vue, options) {
-    layer.vue = Vue
-    Vue.prototype.$layer = layer
-  }
-  module.exports = layer
-})(window)
+    layer.vue = Vue;
+    Vue.prototype.$layer = layer;
+  };
+  module.exports = layer;
+})(window);
