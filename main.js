@@ -16,7 +16,7 @@
                       {{ content }}
                       </div>
                     </div>
-                    <div v-if="defaultChild" class="layui-m-layerchild">
+                    <div v-if="defaultChild" class="layui-m-layerchild layui-m-anim-up">
                         <h3 :style="titleStyle" v-if="title">{{ titleText }}</h3>
                         <div style="word-wrap:break-word" class="layui-m-layercont">{{ content }}</div>
                         <div v-if="btn" class="layui-m-layerbtn">
@@ -25,6 +25,15 @@
                           </template>
                         </div>
                     </div>
+                    <div v-if="isfooter" class="layui-m-layerchild layui-m-anim-up" v-bind:class="skinClass">
+                      <div v-if="content" class="layui-m-layercont">{{ content }}</div>
+                      <div class="layui-m-layerbtn">
+                          <template v-for="(item, index) in btn">
+                            <span :style="footerRadius(index)" v-if="index!=0" no="" v-on:click="callback(index)" type="1">{{ item }}</span>
+                          </template>
+                          <span v-if="btn.length>0" yes="" v-on:click="callback(0)" type="1">{{ btn[0] }}</span>
+                      </div>
+                  </div>
                   </div>
                 </div>
               </div>`,
@@ -56,12 +65,12 @@
     },
     created: function () {
       this.visible = true
-      setTimeout(()=>{this.status = false}, 3000)
-      this.time > 0 ? setTimeout(()=>{this.visible = false}, this.time) : ''
+      setTimeout(() => { this.status = false }, 3000 )
+      this.time > 0 ? setTimeout(() => { this.visible = false }, this.time) : ''
     },
     computed: {
       defaultChild: function () {
-        return (this.type==2 || this.skin=='msg') ? false : true
+        return (this.type==2 || this.skin=='msg' || this.skin=='footer') ? false : true
       },
       layerClass: function () {
         return 'layui-m-layer' + this.type
@@ -78,7 +87,7 @@
         return this.icon
       },
       isShade: function () {
-        return (this.type==2 || this.defaultChild) ? true : false
+        return (this.type==2 || this.skin=='footer' || this.defaultChild) ? true : false
       },
       titleText: function () {
         return (typeof this.title) == 'string' ? this.title : this.title[0]
@@ -88,6 +97,9 @@
       },
       ismsg: function () {
         return this.skin=='msg'
+      },
+      isfooter: function () {
+        return this.skin == 'footer'
       }
     },
     data: function () {
@@ -102,6 +114,9 @@
           return false
         }
         this.visible = false
+      },
+      footerRadius: function (index) {
+        return this.btn[index+1] ? 'border-radius:0;' : 'border-radius: 0 0 5px 5px;'
       }
     }
   }
@@ -162,7 +177,22 @@
         }
         let instance = self.open(props)
       })
-    }
+    },
+    footer: function (data) {
+        let self = this
+        let props = {
+          skin: 'footer',
+          content: data.content ? data.content : '',
+          btn: data.btn ? data.btn : []
+        }
+        return new Promise(function (resolve, reject){
+          props.callback = function (action) {
+            resolve(action)
+            self.close()
+          }
+          let instance = self.open(props)
+        })
+      }
   }
   layer.install = function (Vue, options) {
     layer.vue = Vue

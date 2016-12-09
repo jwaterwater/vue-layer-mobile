@@ -1,7 +1,7 @@
 #vue-layer
 vue弹出层插件,包含toast loading dialog等浮层控件
 
-demo地址:http://jianghai.wao021.cn/app/layer.html
+参考:开源插件layer-mobile http://layer.layui.com/mobile/
 
 #使用方法
 ```javascript
@@ -39,20 +39,3 @@ this.$layer.dialog({
   console.log(position)
 })
 ```
-
-footer:
-```javascript
-this.$layer.footer({
-  content: '这是内容',
-  btn: ['取消', '选项1', '选项2']
-})
-// 如果有btn
-.then(function (res){
-  var text = res==0 ? '取消' : '选项'+res
-  console.log(text)
-})
-```
-
-
-参考:开源插件layer-mobile http://layer.layui.com/mobile/
-
