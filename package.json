@@ -1,0 +1,23 @@
+{
+  "name": "vue-layer-mobile",
+  "version": "1.0.0",
+  "description": "a project for vuejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwaterwater/vue-layer.git"
+  },
+  "keywords": [
+    "vue",
+    "layer"
+  ],
+  "author": "jwaterwater",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwaterwater/vue-layer/issues"
+  },
+  "homepage": "https://github.com/jwaterwater/vue-layer#readme"
+}
