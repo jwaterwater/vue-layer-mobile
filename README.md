@@ -3,11 +3,12 @@ vue弹出层插件,包含toast loading dialog等浮层控件
 
 参考:开源插件layer-mobile http://layer.layui.com/mobile/
 #安装方法
+```javascript
 npm install vue-layer-mobile
-
+```
 #使用方法
 ```javascript
-import from 'vue-layer/need/layer.css'
+import from 'vue-layer-mobile/need/layer.css'
 import layer from 'vue-layer-mobile'
 Vue.use(layer)
 ```
