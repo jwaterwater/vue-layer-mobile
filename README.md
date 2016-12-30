@@ -11,7 +11,7 @@ npm install vue-layer-mobile
  
  #使用方法
  ```javascript
- import from 'vue-layer-mobile/need/layer.css'
+ import 'vue-layer-mobile/need/layer.css'
  import layer from 'vue-layer-mobile'
  Vue.use(layer)
  ```
