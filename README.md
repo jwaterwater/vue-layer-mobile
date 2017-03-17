@@ -35,6 +35,7 @@ npm install vue-layer-mobile
  this.$layer.dialog({
    title: ['这是标题', 'background:red;'], // 第一个是标题内容  第二个是标题栏的style(可以为空)
    content: '这是内容',
+   contentClass: 'className',
    btn: ['确定']
    time: 2000
  })
