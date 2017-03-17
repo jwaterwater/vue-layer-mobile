@@ -1,6 +1,6 @@
 {
   "name": "vue-layer-mobile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a project for vuejs",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "jwaterwater",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jwaterwater/vue-layer/issues"
+    "url": "https://github.com/jwaterwater/vue-layer-mobile/issues"
   },
-  "homepage": "https://github.com/jwaterwater/vue-layer#readme"
+  "homepage": "https://github.com/jwaterwater/vue-layer-mobile#readme"
 }
