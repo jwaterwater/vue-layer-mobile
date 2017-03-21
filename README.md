@@ -6,7 +6,7 @@
   
  #安装方法
  ```javascript
- // 当前最新版本 1.1.0
+ // 当前最新版本 1.2.0
 npm install vue-layer-mobile
 // 如新版遇到问题可回退旧版本
 npm install vue-layer-mobile@1.0.0
