@@ -1,6 +1,6 @@
 {
   "name": "vue-layer-mobile",
-  "version": “1.2.0”,
+  "version": "1.2.0",
   "description": "a project for vuejs",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,7 @@
   "bugs": {
     "url": "https://github.com/jwaterwater/vue-layer-mobile/issues"
   },
-  "homepage": "https://github.com/jwaterwater/vue-layer-mobile#readme"
+  "homepage": "https://github.com/jwaterwater/vue-layer-mobile#readme",
+  "_from": "vue-layer-mobile@1.1.0",
+  "_resolved": "http://registry.npm.taobao.org/vue-layer-mobile/download/vue-layer-mobile-1.1.0.tgz"
 }
