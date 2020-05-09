@@ -1,8 +1,5 @@
  #vue-layer-mobile
  vue弹出层插件,包含toast loading dialog等浮层控件
- 
- demo地址:http://jianghai.wao021.cn/app/layer.html
- 
   
  #安装方法
  ```javascript
